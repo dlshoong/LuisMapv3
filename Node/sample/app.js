@@ -9,8 +9,6 @@ var spellService = require('./spell-service');
 //var locationDialog = require('./core/lib/botbuilder-location');
 //var locationDialog = require('./core/lib/spell-service');
 
-bot.library(locationDialog.createLibrary(process.env.BING_MAPS_API_KEY));
-
 // Setup Restify Server
 var server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function () {
@@ -29,6 +27,8 @@ var bot = new builder.UniversalBot(connector, function (session) {
 
 server.post('/api/messages', connector.listen());
 var bot = new builder.UniversalBot(connector);
+
+bot.library(locationDialog.createLibrary(process.env.BING_MAPS_API_KEY));
 
    /*
 bot.use({
