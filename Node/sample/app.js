@@ -67,7 +67,7 @@ bot.use({
 var recognizer = new builder.LuisRecognizer(process.env.LUIS_MODEL_URL);
 bot.recognizer(recognizer);
 
-locationDialog.create(bot);
+//locationDialog.create(bot);
 //bot.library(locationDialog.createLibrary(process.env.BING_MAPS_API_KEY));
 
 bot.dialog('GetUserLocation', [
