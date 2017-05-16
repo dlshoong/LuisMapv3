@@ -8,7 +8,6 @@ var Store = require('./store');
 var spellService = require('./spell-service');
 //var locationDialog = require('./core/lib/botbuilder-location');
 //var locationDialog = require('./core/lib/spell-service');
-bot.library(locationDialog.createLibrary(process.env.BING_MAPS_API_KEY));
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -67,6 +66,8 @@ bot.use({
 // This Url can be obtained by uploading or creating your model from the LUIS portal: https://www.luis.ai/
 var recognizer = new builder.LuisRecognizer(process.env.LUIS_MODEL_URL);
 bot.recognizer(recognizer);
+
+bot.library(locationDialog.createLibrary(process.env.BING_MAPS_API_KEY));
 
 bot.dialog('GetUserLocation', [
     function (session, args) {
