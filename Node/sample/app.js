@@ -69,21 +69,12 @@ var recognizer = new builder.LuisRecognizer(process.env.LUIS_MODEL_URL);
 bot.recognizer(recognizer);
 
 bot.dialog('GetUserLocation', [
-      function (session) {
-        locationDialog.getLocation(session, {
+    function (session, args) {
+       var options = {
             prompt: "Where should I ship your order? Type or say an address.",
-            requiredFields: 
-                locationDialog.LocationRequiredFields.postalCode
-        });
-    },
-    function (session, results) {
-        if (results.response) {
-            var place = results.response;
-            session.send(place.postalCode);
-        }
-        else {
-            session.send("OK, I won't be shipping it");
-        }
+            useNativeControl: true
+        };
+        locationDialog.getLocation(session, options);
     }
 
     /*function (session, args){
