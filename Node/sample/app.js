@@ -70,16 +70,16 @@ bot.recognizer(recognizer);
 
 bot.dialog('GetUserLocation', [
     function (session, args) {
-       var options = {
+       /*var options = {
             prompt: "Where should I ship your order? Type or say an address.",
             useNativeControl: true
         };
-        locationDialog.getLocation(session, options);
+        locationDialog.getLocation(session, options);*/
     }
 
-    /*function (session, args){
+    function (session, args){
         builder.Prompts.text(session, "Send me your current location.");
-    }*/
+    }
     
 ]).triggerAction({
     matches: 'GetUserLocation'
