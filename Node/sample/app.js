@@ -8,7 +8,7 @@ var Store = require('./store');
 var spellService = require('./spell-service');
 //var locationDialog = require('./core/lib/botbuilder-location');
 //var locationDialog = require('./core/lib/spell-service');
-//bot.library(locationDialog.createLibrary("Ah5ynaNb_5KcIlxCvxrJKJkGIc6s6T5R60Hb4C4hI25nWTex5G_jH7ExBO86tlMi"));
+bot.library(locationDialog.createLibrary(process.env.BING_MAPS_API_KEY));
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -26,12 +26,13 @@ var bot = new builder.UniversalBot(connector, function (session) {
     session.send('Sorry, I did not understand \'%s\'. Type \'help\' if you need assistance.', session.message.text);
 });
 
-//bot.library(locationDialog.createLibrary("AoIXwifw968LLViPkgX0v7XlcUTAD_ZazxcurdjJ17RqU2vbcgFXdc0V8kXX-m74"));
-
 server.post('/api/messages', connector.listen());
 var bot = new builder.UniversalBot(connector);
+
+   /*
 bot.use({
     botbuilder: function (session, next) {
+     
        // myMiddleware.logIncomingMessage(session, next);
            session.send('Intercepted - Welcome to the Hotels finder! \'%s\'', session.message.text);
            session.send("Type: %s", session.message.type);
@@ -39,8 +40,7 @@ bot.use({
            // session.send("Type: %s", session.message.attachments.contentUrl)
            // session.send("Type: %s", session.message.attachments.name)
            session.send("Attachment Count: %d", session.message.attachments.length )
-        
-        
+ 
             var msg = session.message;
             if (msg.attachments && msg.attachments.length > 0) {
              // Echo back attachment
@@ -60,7 +60,8 @@ bot.use({
                 session.send("You said: %s", session.message.text);                           
             }
     }
-})
+});
+*/
 
 // You can provide your own model by specifing the 'LUIS_MODEL_URL' environment variable
 // This Url can be obtained by uploading or creating your model from the LUIS portal: https://www.luis.ai/
@@ -68,9 +69,27 @@ var recognizer = new builder.LuisRecognizer(process.env.LUIS_MODEL_URL);
 bot.recognizer(recognizer);
 
 bot.dialog('GetUserLocation', [
-    function (session, args){
-        builder.Prompts.text(session, "Send me your current location.");
+      function (session) {
+        locationDialog.getLocation(session, {
+            prompt: "Where should I ship your order? Type or say an address.",
+            requiredFields: 
+                locationDialog.LocationRequiredFields.postalCode
+        });
+    },
+    function (session, results) {
+        if (results.response) {
+            var place = results.response;
+            session.send(place.postalCode);
+        }
+        else {
+            session.send("OK, I won't be shipping it");
+        }
     }
+
+    /*function (session, args){
+        builder.Prompts.text(session, "Send me your current location.");
+    }*/
+    
 ]).triggerAction({
     matches: 'GetUserLocation'
 });
