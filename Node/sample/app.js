@@ -67,20 +67,21 @@ bot.use({
 var recognizer = new builder.LuisRecognizer(process.env.LUIS_MODEL_URL);
 bot.recognizer(recognizer);
 
+locationDialog.create(bot);
 bot.library(locationDialog.createLibrary(process.env.BING_MAPS_API_KEY));
 
 bot.dialog('GetUserLocation', [
     function (session, args) {
-       /*var options = {
+       var options = {
             prompt: "Where should I ship your order? Type or say an address.",
             useNativeControl: true
         };
-        locationDialog.getLocation(session, options);*/
+        locationDialog.getLocation(session, options);
     }
 
-    function (session, args){
+    /*function (session, args){
         builder.Prompts.text(session, "Send me your current location.");
-    }
+    }*/
     
 ]).triggerAction({
     matches: 'GetUserLocation'
