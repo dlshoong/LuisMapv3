@@ -73,12 +73,22 @@ bot.recognizer(recognizer);
 //bot.library(locationDialog.createLibrary(process.env.BING_MAPS_API_KEY));
 
 bot.dialog('GetUserLocation', [
-   function (session, args) {
-       var options = {
+   function (session) {
+        locationDialog.getLocation(session, {
             prompt: "Where should I ship your order? Type or say an address.",
-            useNativeControl: true
-        };
-        locationDialog.getLocation(session, options);
+            requiredFields: 
+                locationDialog.LocationRequiredFields.postalCode |
+                locationDialog.LocationRequiredFields.country
+        });
+    },
+    function (session, results) {
+        if (results.response) {
+            var place = results.response;
+            session.send(place.streetAddress + ", " + place.locality + ", " + place.region + ", " + place.country + " (" + place.postalCode + ")");
+        }
+        else {
+            session.send("OK, I won't be shipping it");
+        }
     }
 
    /* function (session, args){
