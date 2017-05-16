@@ -68,7 +68,7 @@ var recognizer = new builder.LuisRecognizer(process.env.LUIS_MODEL_URL);
 bot.recognizer(recognizer);
 
 locationDialog.create(bot);
-bot.library(locationDialog.createLibrary("Ah5ynaNb_5KcIlxCvxrJKJkGIc6s6T5R60Hb4C4hI25nWTex5G_jH7ExBO86tlMi"));
+//bot.library(locationDialog.createLibrary(process.env.BING_MAPS_API_KEY));
 
 bot.dialog('GetUserLocation', [
    /* function (session, args) {
