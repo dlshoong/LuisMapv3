@@ -9,6 +9,8 @@ var spellService = require('./spell-service');
 //var locationDialog = require('./core/lib/botbuilder-location');
 //var locationDialog = require('./core/lib/spell-service');
 
+bot.library(locationDialog.createLibrary(process.env.BING_MAPS_API_KEY));
+
 // Setup Restify Server
 var server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function () {
@@ -80,7 +82,8 @@ bot.dialog('GetUserLocation', [
     }*/
 
     function (session, args){
-        builder.Prompts.text(session, "Send me your current location.");
+         session.send(session, "Send me your current location.");
+       // builder.Prompts.text(session, "Send me your current location.");
     }
     
 ]).triggerAction({
