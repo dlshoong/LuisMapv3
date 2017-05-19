@@ -75,10 +75,10 @@ bot.recognizer(recognizer);
 bot.dialog('GetUserLocation', [
    function (session) {
         locationDialog.getLocation(session, {
-            prompt: "Where should I ship your order? Type or say an address.",
-            requiredFields: 
-                locationDialog.LocationRequiredFields.postalCode |
-                locationDialog.LocationRequiredFields.country
+            prompt: "Where should I ship your order? Type or say an address."//,
+           // requiredFields: 
+           //     locationDialog.LocationRequiredFields.postalCode |
+           //     locationDialog.LocationRequiredFields.country
         });
     },
     function (session, results) {
